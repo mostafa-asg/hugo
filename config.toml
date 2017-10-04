@@ -12,7 +12,7 @@ publishDir = "../publish"
 
 [params]
 	name = "Mostafa Asgari"
-	description = "Software Engineering Blog"
+	description = "Hadoop ecosystem , Java , Go , Micoroservices"
 	bio = "Hadoop ecosystem / Java / Go / Microservices"
 	# Enter optionally your twitter account
 	twitter = "Your Twitter account"
@@ -49,7 +49,7 @@ publishDir = "../publish"
 
 # Add additional social link entries underneath
 [social]
-    twitter  = "https://www.twitter.com/"
+    twitter  = "https://twitter.com/mostafaasg"
     facebook = "https://www.facebook.com/"
-github = "https://www.github.com/mostafa-asg"
+    github = "https://www.github.com/mostafa-asg"
     dribble  = "https://www.dribbble.com/"
