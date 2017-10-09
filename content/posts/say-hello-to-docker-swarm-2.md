@@ -292,10 +292,11 @@ Make sure that **CURRENT STATE** is running.After that push the images to this r
 docker push localhost:5000/backend:1
 docker push localhost:5000/frontend:1
 ```
-In this state you are sure that each node can access this repository to pull the images. How? because we ran this registry on swarm mode, all requests on port 5000 
-on each node will redirects to this registry service using [Swarm routing mesh](https://docs.docker.com/engine/swarm/ingress/).
+In this state you are sure that each node can access this repository to pull the images. How? because we ran this registry as a service on swarm mode, all requests on port 5000 
+on each node will be redirected to this registry service using [Swarm routing mesh](https://docs.docker.com/engine/swarm/ingress/).
 ### Docker Compose
-Because these two services work together, I use *docker compose file* to define dependency between them. Create ad file called *compose.yml* with these lines:
+I want *backend* service only visible to *frontend* service and users cannot directly interact with them.I want users interact only with *frontend* service, so I publish the frontend service port, but I do not publish *backend* service port. To make *backend* service visible to *frontend* service, I use **depends_on** keyword in docker compose.
+Create a file called *compose.yml* with these lines:
 ```
 version: '3'
 services:
@@ -311,4 +312,8 @@ services:
       - backend
     deploy:
       replicas: 2
+```
+Now we are ready to run our services. Becasue we are on swarm cluster, instead of using *docker-compose up* , we should use *docker stack deploy* :
+```
+docker stack deploy --compose-file compose.yml myservices
 ```
