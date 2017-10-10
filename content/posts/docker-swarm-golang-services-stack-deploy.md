@@ -1,6 +1,6 @@
 ---
 title: "Docker Swarm (Part 2)"
-date: 2017-10-08T11:50:42+03:30
+date: 2017-10-10T11:50:42+03:30
 draft: false
 ---
 # Introduction
