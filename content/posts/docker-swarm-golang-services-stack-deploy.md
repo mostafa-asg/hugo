@@ -1,7 +1,7 @@
 ---
-title: "Say Hello to Docker Swarm (Part 2)"
+title: "Docker Swarm (Part 2)"
 date: 2017-10-08T11:50:42+03:30
-draft: true
+draft: false
 ---
 # Introduction
 In the [previous post](https://mostafa-asg.github.io/posts/say-hello-to-docker-swarm/), we 've learned how to create a cluster of 
@@ -15,7 +15,7 @@ The diagram below depicts the intraction model:
 ![services](/static/say-hello-to-docker-swarm-2/services.png#center)  
 
 ## Create swarm cluster
-For demo, let's create a cluster of 3 machines :
+Let's create a cluster of 3 machines using [docker machine](https://docs.docker.com/machine/overview/):
 ```
 docker-machine create --driver=virtualbox node1
 docker-machine create --driver=virtualbox node2
@@ -41,12 +41,17 @@ eval $(docker-machine env node1)
 For more information on creating docker swarm cluster, check the [previous article](https://mostafa-asg.github.io/posts/say-hello-to-docker-swarm/).
 
 ## Backend Service
-Our *Backend* service, is very simple.It just a greeting service.It gives your name as part of a url, and return a message like this:
+Our *Backend* service, is very simple.It is just a greeting service.It gives your name as part of a url, and return a message like this:
 ```
 Welcome {{name}} - Response from : {{ip}}
 ``` 
 which {{name}} is a name that comes with url, and {{ip}} is the container ip address of *Backend* service.  
-Create a folder called backend. Save these lines of code as backend.go :
+Create a folder called backend:
+```
+mkdir backend
+cd backend
+```
+Save these lines of code as backend.go :
 ```
 package main
 
@@ -118,9 +123,9 @@ On another terminal send request to *backend* service :
 ```
 curl http://localhost:7070/greeting/Mostafa
 ```
-After */greeting/* you can type any name.
+After */greeting/* you can type any name. You must see the desired output.
 ### Creating docker image
-To run *backend* service inside a container, we need *docker image* of our backend service.To create *docker image* we need *Dockerfile*.So create a file named *Dockerfile* inside the backend folder with these lines:
+To run *backend* service inside a container, we need *docker image* of our backend service.To create *docker image* we need **Dockerfile**. So create a file named *Dockerfile* inside the backend folder with these lines:
 ```
 FROM ubuntu:14.04
 
@@ -137,8 +142,8 @@ To build docker image type these lines:
 go build backend.go
 docker build -t localhost:5000/backend:1 .
 ```
-The first line, compile the application and create a executable file called *backend*. The second line build the docker image. It creates a image named **backend** with version(tag) 1. *localhost:5000* is crucial here.
-It indicates the image *repository*. Later we will push this image to this repository. We will create this repository on this address later.Check that image has created successfully by :
+The first line, compiles the application and creates a executable file called *backend*. The second line builds the docker image. It creates a image named **backend** with version(tag) 1. *localhost:5000* is crucial here.
+It indicates the image *repository*. Later we will push this image to this repository. We will create this repository on this address later. Check that image has created successfully by :
 ```
 docker images
 ```
@@ -146,8 +151,15 @@ docker images
 REPOSITORY               TAG                 IMAGE ID            CREATED             SIZE
 localhost:5000/backend   1                   79fb7460e002        5 seconds ago       194 MB
 ```
+**NOTE :** This is not a minimal docker image. To reduce the size of the created image check this [article](https://blog.codeship.com/building-minimal-docker-containers-for-go-applications/)
 ## Frontend Service
-Create a folder called *frontend*. Save these lines of code as frontend.go :
+Create a folder called *frontend* outside the *backend* folder.
+```
+cd ..
+mkdir frontend
+cd frontend
+```
+Save these lines of code as frontend.go :
 ```
 package main
 
@@ -249,7 +261,7 @@ It requires *index.html*. Save these lines as index.html:
 </html>
 ```
 It uses [Go html templates](https://golang.org/pkg/html/template/) to render the output. Notice the {{ .IPAddress }}. It is the IP address of *frontend* service. I did this on purpose to show you 
-each of these services run on different nodes. As same as *backend* service, this service also needs Dockerfile to build the *docker image* :
+each of these services run on different nodes. As same as *backend* service, this service also needs Dockerfile to build the *docker image*. Save these lines as Dockerfile :
 ```
 FROM ubuntu:14.04
 
@@ -273,9 +285,9 @@ REPOSITORY                TAG                 IMAGE ID            CREATED       
 localhost:5000/frontend   1                   14599282b8ca        3 seconds ago       196 MB
 localhost:5000/backend    1                   79fb7460e002        15 minutes ago      194 MB
 ```
-## Create Local Repository
-Until now, we have two images on **node1** only. But we have a cluster of 3 machines.If you run a service using docker swarm,each node must get the docker image before it can run our service.
-We must create a local repository using *docker service*.Run this:
+## Create Local Docker Repository
+Until now, we have two images on **node1** only. But we have a cluster of 3 machines.If you run a service using docker swarm,each node must get the docker image before it can run the service.
+We must create a local repository using *docker service*. Run this command:
 ```
 docker service create --name registry --replicas 1 -p 5000:5000 registry:2
 ```
@@ -287,15 +299,14 @@ docker service ps registry
 ID            NAME        IMAGE       NODE   DESIRED STATE  CURRENT STATE          ERROR  PORTS
 u28ffx31hzpw  registry.1  registry:2  node2  Running        Running 7 seconds ago    
 ```
-Make sure that **CURRENT STATE** is running.After that push the images to this registry:
+Make sure that **CURRENT STATE** is 'Running'. After that push the images to this registry:
 ```
 docker push localhost:5000/backend:1
 docker push localhost:5000/frontend:1
 ```
 In this state you are sure that each node can access this repository to pull the images. How? because we ran this registry as a service on swarm mode, all requests on port 5000 
 on each node will be redirected to this registry service using [Swarm routing mesh](https://docs.docker.com/engine/swarm/ingress/).
-### Docker Compose
-I want *backend* service only visible to *frontend* service and users cannot directly interact with them.I want users interact only with *frontend* service, so I publish the frontend service port, but I do not publish *backend* service port. To make *backend* service visible to *frontend* service, I use **depends_on** keyword in docker compose.
+## Docker Compose
 Create a file called *compose.yml* with these lines:
 ```
 version: '3'
@@ -303,9 +314,9 @@ services:
   backend:
     image: localhost:5000/backend:1
     deploy:
-      replicas: 2
+      replicas: 1
   frontend:
-    image: localhost:5000/frontend:2
+    image: localhost:5000/frontend:1
     ports:
       - "8585:8585"
     depends_on:
@@ -313,7 +324,25 @@ services:
     deploy:
       replicas: 2
 ```
+I want *backend* service only be visible to *frontend* service and users cannot directly interact with *backend* service. I want users only interact with *frontend* service, so I published the frontend service port, but I did not publish *backend* service port. To make *backend* service visible to *frontend* service, I use **depends_on** keyword in docker compose.  
 Now we are ready to run our services. Becasue we are on swarm cluster, instead of using *docker-compose up* , we should use *docker stack deploy* :
 ```
 docker stack deploy --compose-file compose.yml myservices
 ```
+Check that all replicas of your services is up and running:
+```
+docker stack ps myservices
+```
+```
+ID            NAME                   IMAGE                      NODE   DESIRED STATE  CURRENT STATE          ERROR  PORTS
+l798nv6r4nza  myservices_frontend.1  localhost:5000/frontend:1  node1  Running        Running 9 seconds ago         
+2yme5txy4ijv  myservices_backend.1   localhost:5000/backend:1   node3  Running        Running 1 second ago          
+ndvpv5mq697y  myservices_frontend.2  localhost:5000/frontend:1  node2  Running        Running 9 seconds ago         
+```
+Notice that on my computer, *frontend* service is not running on node3, however I can still send requests on port 8585 on this node.Thanks to the [swarm routing mesh](https://docs.docker.com/engine/swarm/ingress/). To test services functionality you must open your browser and navigate to {{NODE_IP}}:8585. You cand find node ip addresses by these commands
+```
+docker-machine ip node1
+docker-machine ip node2
+docker-machine ip node3
+```
+Replace {{NODE_IP}} with appropriate ip address and have fun with **swarm cluster** :)
