@@ -5,7 +5,7 @@ draft: false
 ---
 # Say Hello to Docker Swarm (part 1)
 In this tuturial I want to show you, how you can create cluster of machines using [Docker Swarm](https://docs.docker.com/engine/swarm/) and 
-how to run your services on docker swarm.I assume you have basic knowledge of Docker.On part 2 (that will poblish soon), we will implement our services on Golang, and 
+how to run your services on docker swarm.I assume you have basic knowledge of Docker.On [part 2](https://mostafa-asg.github.io/posts/docker-swarm-golang-services-stack-deploy/), we will implement our services on Golang, and 
 will run them on docker swarm, so stay tuned.
 
 ### Install Docker Machine
@@ -96,6 +96,9 @@ eval $(docker-machine env node2)
 docker swarm leave
 ```
 Now check the state of our Nginx service:
+```
+docker service ps nginx
+```
 ```
 ID            NAME         IMAGE  NODE   DESIRED STATE  CURRENT STATE           ERROR  PORTS
 t3cy4lzq6yg3  nginx.1      nginx  node3  Running        Running 16 seconds ago         
