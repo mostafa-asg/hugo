@@ -6,13 +6,15 @@ draft: false
 Perhaps the ordinary way to produce messages to the Kafka is through the standard [Kafka clients](https://cwiki.apache.org/confluence/display/KAFKA/Clients).
 But if you want to just produce text messages to the Kafak, there are simpler ways.In this tutorial I 'll show you 3 ways of
 sending text messages to the Kafka.  
+### kafka-console-producer
 One way is through **kafka-console-producer** that is bundled with Kafka distribution.
 For example to send a file to the Kafka, you can write:
 ```
 cat YOUR_TEXT_FILE | $KAFKA_HOME/bin/kafka-console-producer.sh --broker-list YOUR_KAFKA_BROKER:9092 --topic YOUR_TOPIC
 ```
 That command reads the file line by line, and produces kafka record for each line.  
-  
+
+### Kafka Connect
 Another way to send a file to the Kafka line by line is through **Kafka Connect**. The easiest way to use Kafka Connect is through
 **Confluent Open Source** or **Confluent Enterprise**. [Download](https://www.confluent.io/download/) and install one of them. 
 Start confluent:
@@ -34,12 +36,13 @@ Replace *YOUR_TEXT_FILE* with your file path and *YOUR_TOPIC* with your Kafka to
 $CONFLUENT_HOME/bin/confluent load my-local-file-source -d /tmp/connect-source-file.properties
 ```
 Done! check your topic to ensure that it successfully published.  
-  
+
+### Filebeat
 Another way to send text messages to the Kafka is through [filebeat](https://www.elastic.co/products/beats/filebeat); a log data shipper for local files.  
 Here’s how Filebeat works: When you start Filebeat, it starts one or more prospectors that look in the local paths you’ve specified for log files. For each log file that the prospector locates, Filebeat starts a harvester. Each harvester reads a single log file for new content and sends the new log data to libbeat, which aggregates the events and sends the aggregated data to the output that you’ve configured for Filebeat.  
-![filebeat](/static/publishing-text-messages-to-the-Kafka/filebeat.png)  
+![filebeat](/static/publishing-text-messages-to-the-Kafka/filebeat.png#center)  
 The beauty of **filebeat** is that, you can give a folder as path to the **filebeat** and filebeat can send all files under that folder 
-to the Kafka. It guarantees that events will be delivered to the configured output at least once and with no data loss. 
+to the Kafka. It guarantees that events will be delivered to the configured output **at least once** and with no data loss. 
 Filebeat is able to achieve this behavior because it stores the delivery state of each event in the registry file.  
 First [install](https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-installation.html) filebeat. Then edit filebeat.yml as:
 ```
@@ -82,6 +85,36 @@ After you 've done you can start *filebeat* :
 ```
 ./filbeat -e -d filebeat.yml
 ```
+### Apache Flume
+Apache Flume is a distributed, reliable, and available system for efficiently collecting, aggregating and moving large amounts of log data from many different sources to a centralized data store.At the high level, it consists of 3 main component:
+![Apache Flume](/static/publishing-text-messages-to-the-Kafka/flume.png#center)
+1. Source  
+2. Channel  
+3. Sink  
+Flume Source consumes events from various sources and write them to the channel.The channel is a passive store that keeps the event until it’s consumed by a Flume sink.The sink removes the event from the channel and puts it into an external repository like Kafka or HDFS.  
+[Download](http://flume.apache.org) and extract Apache Flume.Create a flume config file somewhere (For example /tmp/flume-conf.properties)
+```
+agent1.sources = s1
+agent1.channels = c1
+agent1.sinks = k1
+
+agent1.sources.s1.type = spooldir
+agent1.sources.s1.spoolDir = /tmp/myLogs/
+agent1.sources.s1.channels = c1
+
+agent1.channels.c1.type = memory
+
+agent1.sinks.k1.type = org.apache.flume.sink.kafka.KafkaSink
+agent1.sinks.k1.kafka.bootstrap.servers = localhost:9092
+agent1.sinks.k1.kafka.topic = tpk1
+agent1.sinks.k1.channel = c1
+```
+In this config, Flume watches the specified directory for new files, and will parse events out of new files as they appear. The event parsing logic is pluggable. After a given file has been fully read into the channel, it is renamed to indicate completion (or optionally deleted).For more configuration check [Spooling Directory Source](http://flume.apache.org/FlumeUserGuide.html#spooling-directory-source)  
+To start the flume agent, type :
+``` 
+./flume-ng agent -n agent1 -f=/tmp/flume-conf.properties
+```
 That's it. :)
+
 
 
