@@ -13,6 +13,7 @@ publishDir = "../publish"
 [params]
 	highlightjs = "github"
 	subtitle = "Hadoop ecosystem , Java , Go , Micoroservices"
+	googleAnalytics="UA-116347416-1"
 
 [menu]
   # Shown in the side menu.
