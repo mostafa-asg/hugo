@@ -65,7 +65,7 @@ println( factMem(5) )
 println( factMem(4) )
 println( factMem(3) )
 ```
-And if you expect factMem(4) and factMem(3) gets their result from cache you are wrong, because n * **fact(n-1)** is not a memorized function.
+And if you expect **factMem(4)** and **factMem(3)** gets their result from cache you are wrong, because n * **fact(n-1)** is not a memorized function.
 You can tackle this problem by rewriting **fact** function like this:
 ```
 var factMem FuncIntInt
