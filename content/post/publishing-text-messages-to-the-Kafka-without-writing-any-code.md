@@ -2,6 +2,7 @@
 title: "Publishing Text Messages to the Kafka Without Writing Any Code"
 date: 2017-11-29T20:32:03+03:30
 draft: false
+tags: [Kafka,Connect,Filebeat,Flume]
 ---
 Perhaps the ordinary way to produce messages to the Kafka is through the standard [Kafka clients](https://cwiki.apache.org/confluence/display/KAFKA/Clients).
 But if you want to just produce text messages to the Kafak, there are simpler ways.In this tutorial I 'll show you 3 ways of

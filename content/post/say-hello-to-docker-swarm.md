@@ -2,6 +2,7 @@
 title: "Say Hello to Docker Swarm"
 date: 2017-10-04T11:27:57+03:30
 draft: false
+tags: [Go,Docker,Swarm,Microservices]
 ---
 # Say Hello to Docker Swarm (part 1)
 In this tuturial I want to show you, how you can create cluster of machines using [Docker Swarm](https://docs.docker.com/engine/swarm/) and 

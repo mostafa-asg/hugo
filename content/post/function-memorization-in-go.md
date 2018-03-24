@@ -2,6 +2,7 @@
 title: "Function Memorization in Go"
 date: 2018-03-23T22:20:14+04:30
 draft: false
+tags: [Go,Functional Programming,Performance]
 ---
 [Memoization](http://en.wikipedia.org/wiki/Memoization) is an optimization technique used to increase performance by storing the results of expensive function calls and returning the cached result when the same input occurs again. In this post I show how function memoization can be implemented in Go, in a pure functional manner.
 

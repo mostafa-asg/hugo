@@ -2,6 +2,7 @@
 title: "Enhance Hadoop MapReduce Speed for small jobs"
 date: 2018-02-06T07:15:50+03:30
 draft: false
+tags: [Hadoop,MapReduce,Performance]
 ---
 ## Introduction
 There are some circumstances when input of Hadoop's MapReduce is relatively small. Consequently the overhead 

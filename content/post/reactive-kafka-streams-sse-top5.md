@@ -2,6 +2,7 @@
 title: "Kafka Streams + SSE = Realtime web app"
 date: 2017-12-30T07:29:59+03:30
 draft: false
+tags: [Kafka,Streams,SSE]
 ---
 Last week I decided to dirty my hands with **Kafka Streams**. I wanted to write simple application with Kafka Streams more 
 interesting than **World Count**. I decided to write a program that calculates top 5 using Kafka Streams. Imagine you have written

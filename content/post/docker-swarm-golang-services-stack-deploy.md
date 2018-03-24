@@ -2,6 +2,7 @@
 title: "Docker Swarm (Part 2)"
 date: 2017-10-10T11:50:42+03:30
 draft: false
+tags: [Go,Docker,Swarm,Microservices]
 ---
 # Introduction
 In the [previous post](https://mostafa-asg.github.io/posts/say-hello-to-docker-swarm/), we 've learned how to create a cluster of 

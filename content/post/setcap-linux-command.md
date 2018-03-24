@@ -2,6 +2,7 @@
 title: "setcap Linux Command"
 date: 2018-03-19T13:41:44+03:30
 draft: false
+tags: [Linux]
 ---
 Today I learned something new that I want to share with you. I knew that listening on port below 1024
 requires special privilege, and to accomplish that you must be **sudoers**. But running applications with
