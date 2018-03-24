@@ -28,6 +28,11 @@ publishDir = "../publish"
     weight = 2
     identifier = "post"
     url = "/post/"
+  [[menu.main]]
+    name = "Tags"
+    pre = "<i class='fa fa-list fa-fw'></i>"
+    weight = 3
+    url = "/tags/"
 
 [social]
   # Link your social networking accounts to the side menu
