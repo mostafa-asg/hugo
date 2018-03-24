@@ -6,9 +6,9 @@ tags: [Go,Functional Programming,Performance]
 ---
 [Memoization](http://en.wikipedia.org/wiki/Memoization) is an optimization technique used to increase performance by storing the results of expensive function calls and returning the cached result when the same input occurs again. In this post I show how function memoization can be implemented in Go, in a pure functional manner.
 
-Based on wikipedia definition, a function may be considered a pure function if both of the following statements about the function hold:  
-1. The function always evaluates the same result value given the same argument value(s). The function result value cannot depend on any hidden information or state that may change while program execution proceeds or between different executions of the program, nor can it depend on any external input from I/O devices (usually—see below).  
-2. Evaluation of the result does not cause any semantically observable side effect or output, such as mutation of mutable objects or output to I/O devices (usually—see below).
+Based on [wikipedia definition](https://en.wikipedia.org/wiki/Pure_function), a function may be considered a pure function if both of the following statements about the function hold:  
+**1.** The function always evaluates the same result value given the same argument value(s). The function result value cannot depend on any hidden information or state that may change while program execution proceeds or between different executions of the program, nor can it depend on any external input from I/O devices (usually—see below).  
+**2.** Evaluation of the result does not cause any semantically observable side effect or output, such as mutation of mutable objects or output to I/O devices (usually—see below).
 
 Pure functions are more easily optimized. Let's perform optimizations using a caching technique. Assume we have a factorial function like this:
 ```
@@ -79,5 +79,5 @@ println( factMem(5) )
 println( factMem(4) )
 println( factMem(3) )
 ```
-Thanks to closure and anonymous function we can workaround this problem. You can find code on [github](https://gist.github.com/mostafa-asg/cbe12409e480a7ff92db9f46e3e8cf17).
+Thanks to closure and anonymous function we can workaround this problem. You can find the source code on [github](https://gist.github.com/mostafa-asg/cbe12409e480a7ff92db9f46e3e8cf17).
 
