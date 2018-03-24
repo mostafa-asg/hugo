@@ -3,7 +3,7 @@ baseurl = "https://mostafa-asg.github.io"
 themesDir = "themes"
 languageCode = "en-us"
 title = "Software Engineering Blog"
-theme = "cactus"
+theme = "blackburn"
 # Enter your tracking code to enable Google Analytics
 googleAnalytics = ""
 # Disable comments by leaving disqusShortname empty
@@ -11,45 +11,33 @@ disqusShortname = ""
 publishDir = "../publish"
 
 [params]
-	name = "Mostafa Asgari"
-	description = "Hadoop ecosystem , Java , Go , Micoroservices"
-	bio = "Hadoop ecosystem / Java / Go / Microservices"
-	# Enter optionally your twitter account
-	twitter = "Your Twitter account"
-	enableRSS = true
+	highlightjs = "github"
+	subtitle = "Hadoop ecosystem , Java , Go , Micoroservices"
 
-	# Integrate Javascript files or stylesheets by adding the url to the external assets or by
-	# linking local files with their path relative to the static folder, e.g. "css/styles.css"
-	customCSS = []
-	customJS  = []
+[menu]
+  # Shown in the side menu.
+  [[menu.main]]
+    name = "Home"
+    pre = "<i class='fa fa-home fa-fw'></i>"
+    weight = 1
+    identifier = "home"
+    url = "/"
+  [[menu.main]]
+    name = "Posts"
+    pre = "<i class='fa fa-list fa-fw'></i>"
+    weight = 2
+    identifier = "post"
+    url = "/post/"
 
-	# The variables below are optionally too and can be used to
-	# translate or customize each string of the theme.
-
-	# Navigation links
-	home = ""
-	subscribe = ""
-	# Pagination links
-	olderPosts = ""
-	newerPosts = ""
-	readMore = ""
-	copyright = ""
-	# Sharing options and author information in posts
-	aboutAuthor = "Data Engineer"
-	tweet = ""
-	share = ""
-	# 404 page
-	title404 = ""
-	subtitle404 = ""
-
-	# Choose a font for the social icons in the footer. Either "mono-social" or "font-awesome"
-	iconFont = "mono-social"
-    # The social icons can be styled differently if you use mono as font - circle, rounded, or empty
-    socialIconStyle = "circle"
-
-# Add additional social link entries underneath
 [social]
-    twitter  = "https://twitter.com/mostafaasg"
-    facebook = "https://www.facebook.com/"
-    github = "https://www.github.com/mostafa-asg"
-    dribble  = "https://www.dribbble.com/"
+  # Link your social networking accounts to the side menu
+  # by entering your username or ID.
+
+  # SNS microblogging
+  twitter = "mostafaasg"
+
+  # SNS career oriented
+  linkedin = "mostafaasg"
+
+  # Techie
+  github = "mostafa-asg"

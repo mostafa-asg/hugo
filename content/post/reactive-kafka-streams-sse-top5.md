@@ -7,7 +7,9 @@ Last week I decided to dirty my hands with **Kafka Streams**. I wanted to write 
 interesting than **World Count**. I decided to write a program that calculates top 5 using Kafka Streams. Imagine you have written
 a game, and you want to display top 5 users. You also need that calculating and displaying top 5 to be real time. You need
 whenever a user has hit a record, it automatically displays user record. This is how application look like:
-![Screenshot](https://raw.githubusercontent.com/mostafa-asg/KStreams/master/asset/KafkaStreams.png)
+{{< fluid_imgs
+	"center|https://raw.githubusercontent.com/mostafa-asg/KStreams/master/asset/KafkaStreams.png|Screenshot"
+>}}
 
 We can harness the Kafka streams reactive nature and [Server-Sent Events](https://www.w3schools.com/html/html5_serversentevents.asp)
 to build real time web application.Let's dive into the implementation.

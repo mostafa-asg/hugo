@@ -12,7 +12,9 @@ is *backend* service. The user can interact only with *frontend* service.*Fronte
 *Frontend* service is a web application that showes a html page to the user.User can type his name on the textbox and triggers a request.When *frontend* 
 accepts the request from the user, it sends a requets to *backend* service with the user's provided name,and shows the response of the *backend* service to the user.  
 The diagram below depicts the intraction model:
-![services](/static/say-hello-to-docker-swarm-2/services.png#center)  
+{{< fluid_imgs
+	"center|/static/say-hello-to-docker-swarm-2/services.png|services"
+>}}
 
 ## Create swarm cluster
 Let's create a cluster of 3 machines using [docker machine](https://docs.docker.com/machine/overview/):

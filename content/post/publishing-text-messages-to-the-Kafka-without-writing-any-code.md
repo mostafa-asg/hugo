@@ -40,7 +40,9 @@ Done! check your topic to ensure that it successfully published.
 ### Filebeat
 Another way to send text messages to the Kafka is through [filebeat](https://www.elastic.co/products/beats/filebeat); a log data shipper for local files.  
 Here’s how Filebeat works: When you start Filebeat, it starts one or more prospectors that look in the local paths you’ve specified for log files. For each log file that the prospector locates, Filebeat starts a harvester. Each harvester reads a single log file for new content and sends the new log data to libbeat, which aggregates the events and sends the aggregated data to the output that you’ve configured for Filebeat.  
-![filebeat](/static/publishing-text-messages-to-the-Kafka/filebeat.png#center)  
+{{< fluid_imgs
+	"center|/static/publishing-text-messages-to-the-Kafka/filebeat.png|filebeat"
+>}}
 The beauty of **filebeat** is that, you can give a folder as path to the **filebeat** and filebeat can send all files under that folder 
 to the Kafka. It guarantees that events will be delivered to the configured output **at least once** and with no data loss. 
 Filebeat is able to achieve this behavior because it stores the delivery state of each event in the registry file.  
@@ -87,7 +89,9 @@ After you 've done you can start *filebeat* :
 ```
 ### Apache Flume
 Apache Flume is a distributed, reliable, and available system for efficiently collecting, aggregating and moving large amounts of log data from many different sources to a centralized data store.At the high level, it consists of 3 main component:
-![Apache Flume](/static/publishing-text-messages-to-the-Kafka/flume.png#center)
+{{< fluid_imgs
+	"center|/static/publishing-text-messages-to-the-Kafka/flume.png|Apache Flume"
+>}}
 1. Source  
 2. Channel  
 3. Sink  
