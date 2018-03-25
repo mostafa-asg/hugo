@@ -30,9 +30,9 @@ score if and only if, user has hit a record. Here is defination:
 The only difference moreover topic name is that we set *cleanup.policy=compact*. This is necessary because we want Kafka
  stores all messages in this topic, and deletes a record only when new record with the same key arrived. So if a user hit a
   record, Kafka automatically delete his last record from this topic. For more information see 
-  [Log compacction](http://kafka.apache.org/documentation/#compaction)
-  
-  #### Kafka Streams
+  [Log compacction](http://kafka.apache.org/documentation/#compaction).  
+
+#### Kafka Streams
   To find out top score for each user using *Kafka streams*, we can write ([HighScoreStreams.java
 ](https://github.com/mostafa-asg/KStreams/blob/master/src/main/java/com/github/HighScoreStreams.java)):
   ```
@@ -59,9 +59,9 @@ The only difference moreover topic name is that we set *cleanup.policy=compact*.
   .to( "high-scores" , Produced.with(Serdes.String(),Serdes.Integer()));
   ```
   I used **builder.stream** for **scores** topic but **builder.table** for **high-scores** beacuse I only want the last record
-  of a user, not a history of his records. With this code, **high-scores** topic contains the high score of all users.
-  
-  #### Top 5
+  of a user, not a history of his records. With this code, **high-scores** topic contains the high score of all users.  
+
+#### Top 5
   For calculating top 5, I wrote a simple Kafka consumer ([HighScores.java](https://github.com/mostafa-asg/KStreams/blob/master/src/main/java/com/github/HighScores.java)), 
   that constantly read from **high-scores** topic, and add high scores to a ArrayList with maximum size of 5. Whenever this
   list changes, I send it through SSE to the clients([HttpServer.java](https://github.com/mostafa-asg/KStreams/blob/master/src/main/java/com/github/HttpServer.java)):
@@ -83,8 +83,8 @@ The only difference moreover topic name is that we set *cleanup.policy=compact*.
 
   return "";
 });
-  ```
-  #### Client side
+  ```  
+#### Client side
   On client side([home.html](https://github.com/mostafa-asg/KStreams/blob/master/src/main/resources/home.html)), I use **EventSource** to stablish a connection to SSE server and update DOM, whenever a new event has arrived:
   ```
   $(document).ready(function () {
