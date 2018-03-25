@@ -20,7 +20,7 @@ func fact(n int) int {
 	return result
 }
 ```
-One way to speed things up is to cache result values and to look them up on subsequent invocations of **fact** function.This can be done either by the function itself or by the caller. The first approach has the drawback that each and every function has to implement caching and that clients have no control over the caching mechanism. The latter approach puts all the burden on the client programmer and produces potential boilerplate. To overcome these issues we need a way to construct a memorized function having the same type as a given function. Let's define **memorized** function that turns any function which accepts int as input and returns int as output to a memorized capable function:
+One way to speed things up is to cache result values and to look them up on subsequent invocations of **fact** function.This can be done either by the function itself or by the caller. The first approach has the drawback that each and every function has to implement caching and that clients have no control over the caching mechanism. The latter approach puts all the burden on the client programmer and produces potential boilerplate. To overcome these issues we need a way to construct a memorized function having the same type as a given function. Let's define **memorized** function that turns any function which accepts **int** as input and returns **int** as output to a memorized capable function:
 
 ```
 type FuncIntInt func(int) int
@@ -66,7 +66,7 @@ println( factMem(4) )
 println( factMem(3) )
 ```
 And if you expect **factMem(4)** and **factMem(3)** gets their result from cache you are wrong, because n * **fact(n-1)** is not a memorized function.
-You can tackle this problem by rewriting **fact** function like this:
+You can tackle this problem by passing anonymous function of factorial to **memorized** function and calling memorized version in the recursive call:
 ```
 var factMem FuncIntInt
 factMem = memorized(func(n int) int {
