@@ -141,15 +141,16 @@ public class OutputConfiguration {
 ```
 ## Solution 5> Use MappingJackson2HttpMessageConverter
 ```
-public class OutputConfiguration {
-   @Bean
-    public Jackson2ObjectMapperBuilder customJson() {
-        return new Jackson2ObjectMapperBuilder()
-                .indentOutput(true)
-                .serializationInclusion(JsonInclude.Include.NON_NULL)
-                .propertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
-    }
-}
+@Bean
+    public MappingJackson2HttpMessageConverter customJson(){
+        return new MappingJackson2HttpMessageConverter(
+                new Jackson2ObjectMapperBuilder()
+                        .indentOutput(true)
+                        .serializationInclusion(JsonInclude.Include.NON_NULL)
+                        .propertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE)
+                        .build()
+        );
+} 
 ```
 That's it. Do you know the other ways to customize JSON/XML output? If you know let me know.   
 source: [Spring Mvc documentation](https://docs.spring.io/spring-boot/docs/current/reference/html/howto-spring-mvc.html#howto-customize-the-jackson-objectmapper)
