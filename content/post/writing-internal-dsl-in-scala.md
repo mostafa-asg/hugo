@@ -40,7 +40,7 @@ CSS or a regular expression are good examples of external DSLs.
 
 In this tutorial, I 'm going to write internal DSL for representing [Deterministic Finite Automaton](https://en.wikipedia.org/wiki/Deterministic_finite_automaton). It 's
 basically a finite-state machine that accepts some input and tells us whether it has accepted the input or not.
-It consumes input from start to end, and at each step it will changes it's internal state. Input will be
+It consumes input from start to end, and at each step it changes it's internal state. Input will be
 accepted if the DFA's position is on one of the final states. For example blow is the DFA that accepts all
 input that starts and ends with 0:
 
@@ -128,14 +128,16 @@ Next, we look inside the **newDfa** method call:
         transition on 'B' from St0 to St1
       }
 ```
-**newDfa** accepts a function of **Dfa => Unit**. You can configure your automata inside this method. For
+**newDfa** accepts a function of **Dfa => Unit**. **newDfa** is an example of a higher-order
+ function. Higher order functions take other functions as parameters or return a function as a
+ result. You can configure your automata inside this method. For
 example you can define all the states via:
 ```
       dfa states {
         Seq(S0 , S1 , S2 , S3)
       }
 ```
-**states** is one of the Dfa's methods. In scala you can replace *dot* with space for for
+**states** is one of the Dfa's methods. In scala you can replace *dot* with space for
 invoking methods that take one argument. So above code could be
 written as:
 ```
@@ -145,27 +147,27 @@ written as:
 ```
 or
 ```
-      dfa.states(Seq( "S0" , "S1" , "S2" , "S3"))
+      dfa.states(Seq( S0 , S1 , S2 , S3))
 ```
 But the former is more readable. I also modeled DFA's states like this:
 ```
-trait State
+sealed trait State
 
-case object S0 extends State
-case object S1 extends State
-case object S2 extends State
-case object S3 extends State
+final case object S0 extends State
+final case object S1 extends State
+final case object S2 extends State
+final case object S3 extends State
 ```
-Of course you could model states as simple string like "S0" or "S1" but this way is
-more type safe.
+Of course you could model states as simple string like "S0" or "S1" but
+this way is more type safe.
 **finalStates** method is also like **states** method so let's jump to the
-**transitions** method. The interesting thing here is:
+**transitions** method. The interesting thing, is in transitions block:
 ```
     transition on 'A' from St0 to St2
     transition on 'B' from St0 to St1
 ```
-It 's just infix notaion method call mixed with some method chaining. *transition* is
-a variable of type **Transition**:
+It 's just infix notaion method call mixed with some method chaining.
+*transition* is a parameter of type **Transition**:
 ```
 class Transition {
   // code removed for brevity
@@ -177,10 +179,17 @@ class Transition {
 But defining **Transition** type like this has one drawback
 and that is *ordering*. User can call any of these methods in any order that
 he want but I didn't like that so I refactored **Transition** into 3 class that
-each class has exatcly one method, each method returns the other class in the chain:
+each class has exatcly one method, each method returns
+the other class in the chain. The picture below depicts the idea:
 {{< fluid_imgs
         "center|/static/scala-internal-dsl/chain.png|"
 >}}
+
+## Another way to enforce method ordering
+Another way to enforce method ordering is through *phantom types*, types that
+never get instantiated. Understanding these ghosts :) requires another
+full article. So I urge you to read this awsome article about *phantom types*:
+[https://blog.codecentric.de/en/2016/02/phantom-types-scala/](https://blog.codecentric.de/en/2016/02/phantom-types-scala/)
 
 ## conclusion
 In nutshell, when you write DSL in scala, higher-order functions,
