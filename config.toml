@@ -12,7 +12,7 @@ publishDir = "../publish"
 
 [params]
 	highlightjs = "github"
-	subtitle = "Hadoop ecosystem , Java , Go , Micoroservices"
+	subtitle = "Hadoop ecosystem, Scala, Java, Go, Micoroservices"
 	googleAnalytics="UA-116347416-1"
 
 [menu]
@@ -34,6 +34,11 @@ publishDir = "../publish"
     pre = "<i class='fa fa-list fa-fw'></i>"
     weight = 3
     url = "/tags/"
+  [[menu.main]]
+    name = "Contact"
+    pre = "<i class='fa fa-phone fa-fw'></i>"
+    weight = 4
+    url = "mailto:mostafa.asg@gmail.com"
 
 [social]
   # Link your social networking accounts to the side menu
