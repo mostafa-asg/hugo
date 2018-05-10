@@ -76,7 +76,7 @@ we will build a DSL like this:
 
      val hasInputAccepted = dfa.run
 ```
-Ok, let's start coding.
+This code is exactly correspondens to the picture above, representing DFA that accepts all input that starts and ends with zero. Ok, let's start coding.
 
 At first line you see something like this:
 ```
@@ -167,7 +167,7 @@ this way is more type safe.
     transition on 'B' from St0 to St1
 ```
 It 's just infix notaion method call mixed with some method chaining.
-*transition* is a parameter of type **Transition**:
+*transition* is a parameter of type **Transition** which has 3 methods: **on**, **from**, **to**:
 ```
 class Transition {
   // code removed for brevity
@@ -178,7 +178,7 @@ class Transition {
 ```
 But defining **Transition** type like this has one drawback
 and that is *ordering*. User can call any of these methods in any order that
-he want but I didn't like that so I refactored **Transition** into 3 class that
+he wants but I didn't like that so I refactored **Transition** into 3 class that
 each class has exatcly one method, each method returns
 the other class in the chain. The picture below depicts the idea:
 {{< fluid_imgs
@@ -188,8 +188,8 @@ the other class in the chain. The picture below depicts the idea:
 ## Another way to enforce method ordering
 Another way to enforce method ordering is through *phantom types*, types that
 never get instantiated. Understanding these ghosts :) requires another
-full article. So I urge you to read this awsome article about *phantom types*:
-[https://blog.codecentric.de/en/2016/02/phantom-types-scala/](https://blog.codecentric.de/en/2016/02/phantom-types-scala/)
+full article. So I urge you to read this awsome article about *phantom types*
+[https://blog.codecentric.de/en/2016/02/phantom-types-scala/](https://blog.codecentric.de/en/2016/02/phantom-types-scala/) and implement method chaining with phantom types as a exercise. 
 
 ## conclusion
 In nutshell, when you write DSL in scala, higher-order functions,
