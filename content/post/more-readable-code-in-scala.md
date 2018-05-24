@@ -129,4 +129,4 @@ source code [here](https://github.com/mostafa-asg/DemoAkkaHttp/blob/master/src/m
 
 ## Last world
 I wanted to abstract validation in my code so I wrote Validate class for myself, and
-of course, the next step for me, is to read [Cats Validated](https://typelevel.org/cats/datatypes/validated.html).
+of course, the next move for me, is to read [Cats Validated](https://typelevel.org/cats/datatypes/validated.html).
