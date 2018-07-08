@@ -1,5 +1,5 @@
 ---
-title: Case Study - Crosswords Puzzle
+title: Case Study - Solve Crosswords Puzzle
 date: 2018-07-08T20:47:51+04:30
 draft: false
 tags: [Scala,hackerrank]
