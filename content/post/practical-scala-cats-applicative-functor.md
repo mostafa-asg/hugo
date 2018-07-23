@@ -133,6 +133,12 @@ the same goal without wrapping your function using equivalent
 methods **map**, **map2**, **map3**, ...:
 ```
 Applicative[Option].map2(a,b)(add)
+// res6: Option[Int] = Some(16)
+```
+Are you a lazy person? you don't want to count parameters yourself? then use extension method **mapN**:
+```
+(a,b).mapN(add)
+// res7: Option[Int] = Some(16)
 ```
 Another reason that makes Applicative a real good candidate instead of
 using for-comprehensions is **independent effects**. Take a look at this code:
