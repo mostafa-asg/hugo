@@ -1,5 +1,5 @@
 # Site settings
-baseurl = "https://mostafa-asg.github.io"
+baseurl = "https://mostafa-asg.github.io/"
 themesDir = "themes"
 languageCode = "en-us"
 title = "Software Engineering Blog"

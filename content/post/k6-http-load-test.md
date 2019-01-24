@@ -2,7 +2,7 @@
 title: "Load testing using K6"
 date: 2019-01-24T10:41:16+03:30
 draft: false
-tags: [K6,performance]
+tags: [K6,http load test,performance]
 ---
 # Introduction
 Understanding the performance of mission critical API is crucial. Before you deploy your API, probably you want to know, how your API behaves under heavy loads. Most API nowadays are HTTP-based, and that's why there are numerous **HTTP load testing** tools available. Here is just a few:
